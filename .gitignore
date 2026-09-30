@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Production builds
+dist/
+**/dist/
+.dist/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.db
+*.sqlite3
+
+# Environment and IDE
+.env
+.env.local
+.vscode/
+.idea/
+.kilo/
+
+# OS metadata
+Thumbs.db
+Desktop.ini
+.DS_Store
