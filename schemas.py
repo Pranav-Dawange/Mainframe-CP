@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
+from datetime import datetime
 
 class UserCreate(BaseModel):
     username: str = Field(..., min_length=3, max_length=50, description="Username between 3 and 50 characters")
@@ -28,3 +29,45 @@ class MessageResponse(BaseModel):
     message: str
     username: Optional[str] = None
     role: Optional[str] = None
+
+class DocumentResponse(BaseModel):
+    id: int
+    name: str
+    type: str
+    upload_date: datetime
+    purchase_date: Optional[datetime] = None
+    expiry_date: Optional[datetime] = None
+    warranty_end_date: Optional[datetime] = None
+    amount: Optional[float] = None
+    status: str
+    file_path: str
+    file_size: int
+    invoice_number: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+class ActivityResponse(BaseModel):
+    id: int
+    date: datetime
+    action: str
+    details: str
+
+    class Config:
+        from_attributes = True
+
+class NotificationResponse(BaseModel):
+    id: int
+    message: str
+    date: datetime
+    is_read: bool
+    type: str
+
+    class Config:
+        from_attributes = True
+
+class AssistantRequest(BaseModel):
+    query: str
+
+class AssistantResponse(BaseModel):
+    answer: str
