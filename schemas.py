@@ -43,6 +43,9 @@ class DocumentResponse(BaseModel):
     file_path: str
     file_size: int
     invoice_number: Optional[str] = None
+    extracted_text: Optional[str] = None
+    mainframe_job_id: Optional[str] = None
+    mainframe_status: Optional[str] = None
     
     class Config:
         from_attributes = True
@@ -68,6 +71,10 @@ class NotificationResponse(BaseModel):
 
 class AssistantRequest(BaseModel):
     query: str
+    gemini_key: Optional[str] = None
+    groq_key: Optional[str] = None
 
 class AssistantResponse(BaseModel):
     answer: str
+    engine: Optional[str] = "local_cat"
+    emotion: Optional[str] = "happy"

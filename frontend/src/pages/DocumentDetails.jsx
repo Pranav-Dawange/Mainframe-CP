@@ -185,8 +185,13 @@ const DocumentDetails = () => {
                   </div>
                 </div>
               )}
-              {!doc.purchase_date && !doc.amount && !doc.invoice_number && !doc.warranty_end_date && !doc.expiry_date && (
-                <p className="text-sm text-gray-500 py-4 text-center">No specific information was extracted from this document.</p>
+              {doc.extracted_text && (
+                <div className="pt-2 border-t border-gray-100">
+                  <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">OCR Scanned Text</p>
+                  <pre className="p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-mono text-gray-700 max-h-36 overflow-y-auto whitespace-pre-wrap">
+                    {doc.extracted_text}
+                  </pre>
+                </div>
               )}
             </div>
           </div>

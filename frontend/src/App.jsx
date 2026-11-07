@@ -18,6 +18,7 @@ import Notifications from './pages/Notifications';
 import Activity from './pages/Activity';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import MainframeSync from './pages/MainframeSync';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/activity" element={<Activity />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/mainframe" element={<MainframeSync />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

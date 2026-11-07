@@ -32,6 +32,8 @@ class Document(Base):
     file_size = Column(Integer, default=0)
     invoice_number = Column(String, nullable=True)
     extracted_text = Column(String, nullable=True)
+    mainframe_job_id = Column(String, nullable=True)
+    mainframe_status = Column(String, default="Synced", nullable=True)
 
     owner = relationship("User", back_populates="documents")
 

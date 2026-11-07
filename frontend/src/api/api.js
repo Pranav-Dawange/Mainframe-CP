@@ -58,7 +58,23 @@ export const searchApi = {
 };
 
 export const assistantApi = {
-  ask: (query) => api.post('/assistant', { query }),
+  ask: (query, gemini_key = null, groq_key = null) => api.post('/assistant', { query, gemini_key, groq_key }),
+};
+
+export const mainframeApi = {
+  getStatus: () => api.get('/mainframe/status'),
+  getDatasets: () => api.get('/mainframe/datasets'),
+  syncLifeVaultJcl: () => api.post('/mainframe/lvault-sync'),
+  submitTransaction: (data) => api.post('/submit-transaction', data, {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  }),
+};
+
+export const expenseApi = {
+  exportExcel: () => api.get('/expenses/export', { responseType: 'blob' }),
+  syncExcel: () => api.post('/expenses/sync'),
+  downloadUrl: 'http://localhost:8000/api/expenses/export',
 };
 
 export default api;
+

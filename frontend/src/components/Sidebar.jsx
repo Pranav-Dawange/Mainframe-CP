@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, FileText, UploadCloud, ShieldAlert, Bot,
-  Search, Bell, Activity, Settings, LogOut, User, ChevronLeft, ChevronRight
+  Search, Bell, Activity, Settings, LogOut, User, ChevronLeft, ChevronRight, Server
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useSidebar } from '../layouts/ProtectedLayout';
@@ -16,6 +16,7 @@ const navItems = [
     ]
   },
   { name: 'Warranty Tracker', path: '/warranties', icon: ShieldAlert },
+  { name: 'Mainframe & Zowe', path: '/mainframe', icon: Server },
   { name: 'AI Assistant', path: '/assistant', icon: Bot },
   { name: 'Search', path: '/search', icon: Search },
   { name: 'Notifications', path: '/notifications', icon: Bell },

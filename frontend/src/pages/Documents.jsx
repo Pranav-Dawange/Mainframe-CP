@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, Grid, List as ListIcon, FileText, AlertTriangle, Trash2, Eye, Download } from 'lucide-react';
-import { documentApi } from '../api/api';
+import { Search, Filter, Grid, List as ListIcon, FileText, AlertTriangle, Trash2, Eye, Download, FileSpreadsheet } from 'lucide-react';
+import { documentApi, expenseApi } from '../api/api';
 
 const TYPE_FILTERS = ['All', 'Invoice', 'Warranty', 'Insurance', 'Certificate', 'Bill', 'Other'];
 
@@ -29,6 +29,7 @@ const Documents = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState('grid');
   const [isLoading, setIsLoading] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
   const [error, setError] = useState(null);
   const [typeFilter, setTypeFilter] = useState('All');
   const [sortBy, setSortBy] = useState('newest');
@@ -48,6 +49,26 @@ const Documents = () => {
       setError('Unable to load documents. Please check your connection.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleExportExcel = async () => {
+    try {
+      setIsExporting(true);
+      const res = await expenseApi.exportExcel();
+      const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Company_Employee_Expenses_${new Date().toISOString().slice(0, 10)}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Failed to download Excel sheet. Please try again.');
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -83,14 +104,25 @@ const Documents = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-primary">My Documents</h1>
-          <p className="text-sm text-gray-500 mt-1">{documents.length} document{documents.length !== 1 ? 's' : ''} stored</p>
+          <p className="text-sm text-gray-500 mt-1">{documents.length} document{documents.length !== 1 ? 's' : ''} stored & recorded</p>
         </div>
-        <Link to="/documents/upload" className="btn-primary flex items-center gap-2">
-          + Upload Document
-        </Link>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleExportExcel}
+            disabled={isExporting}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition shadow-sm hover:shadow"
+            title="Download company expenses spreadsheet"
+          >
+            <FileSpreadsheet className="w-4 h-4" />
+            {isExporting ? 'Exporting...' : 'Export Expenses (.xlsx)'}
+          </button>
+          <Link to="/documents/upload" className="btn-primary flex items-center gap-2">
+            + Upload Document
+          </Link>
+        </div>
       </div>
 
       {/* Controls Bar */}
